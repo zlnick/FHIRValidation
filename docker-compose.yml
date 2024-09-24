@@ -1,0 +1,19 @@
+services:
+    iris:
+        build: 
+            dockerfile: Dockerfile
+        environment:
+            IRIS_USERNAME: superuser
+            IRIS_PASSWORD: SYS
+        hostname: 2024demo
+        container_name: fhirvalidation
+        ports:
+            - 1980:1972 
+            - 52880:52773
+        command: 
+            - -a
+            - iris session iris -U%SYS '##class(Security.Users).UnExpireUserPasswords("*")'
+            - --check-caps false
+            - --log /usr/irissys/mgr/messages.log
+        
+
