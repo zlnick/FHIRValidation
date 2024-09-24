@@ -1,6 +1,6 @@
 CodeSystem:  OrganizationTypeCS
 Id: organizationtype-code-system
-Title: "Organization Type Code System"
+Title: "组织机构类型代码"
 Description:  "遵循国标GB/T 20091-2021 组织机构类型（节选）"
 * #1 "法人"
 * #11 "营利法人"
