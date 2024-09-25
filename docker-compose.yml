@@ -1,7 +1,6 @@
 services:
     iris:
-        build: 
-            dockerfile: Dockerfile
+        build: ./image-iris
         environment:
             IRIS_USERNAME: superuser
             IRIS_PASSWORD: SYS
