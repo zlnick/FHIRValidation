@@ -17,3 +17,10 @@ Description:  "遵循国标GB/T 20091-2021 组织机构类型（节选）"
 * #22 "非营利性非法人组织"
 * #221 "不具有法人资格的非营利性专业服务机构"
 * #229 "其他非营利性非法人组织"
+
+CodeSystem: ChineseIdentifierTypeCS
+Id: cs-identifierType-code-system
+Title: "标识类型"
+Description: "中国标识类型，如身份证号，统一社会信用代码等"
+* #USCC "统一社会信用代码"
+* #CIN "公民身份号码"
