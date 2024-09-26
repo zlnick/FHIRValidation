@@ -1,8 +1,5 @@
 
 iris session $ISC_PACKAGE_INSTANCENAME -U %SYS <<- EOF
-do \$SYSTEM.OBJ.Load("/dur/init/WebTerminal-v4.9.5.xml", "cuk")
-do \$SYSTEM.OBJ.Load("/dur/init/zpm-0.7.0.xml", "cuk")
-write "zpm, webterminal installed"
 
 // Disable user password expiration as a demo platform
 zn "%SYS"
@@ -20,6 +17,12 @@ Set metadataConfigKey = "HL7v40"
 // Do ##class(HS.HC.Util.Installer).InstallFoundation(namespace)
 Do ##class(HS.Util.Installer.Foundation).Install(namespace)
 zn namespace
+
+// Import packages to be validated against
+// To make FHIR R4 'complete', according to SUSHI community comments, hl7.fhir.uv.extensions.r4 and hl7.terminology.r4 packages are also needed
+SET packageList=$LISTBUILD("/dur/IGPackage/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackage/hl7.terminology.r4#6.0.2/package","/dur/IGPackage/fhir.example/package")
+Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
+zw rtn
 
 // Install elements that are required for a FHIR-enabled namespace
 do ##class(HS.FHIRServer.Installer).InstallNamespace()
