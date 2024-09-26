@@ -7,6 +7,7 @@ do ##class(Security.Users).UnExpireUserPasswords("*")
 
 set ns="FHIRSERVER"
 zn "HSLIB"
+
 set namespace=ns
 Set appKey = "/csp/healthshare/fhirserver/fhir/r4"
 Set strategyClass = "HS.FHIRServer.Storage.JsonAdvSQL.InteractionsStrategy"
@@ -18,9 +19,7 @@ Set metadataConfigKey = "HL7v40"
 Do ##class(HS.Util.Installer.Foundation).Install(namespace)
 zn namespace
 
-// Import packages to be validated against
-// To make FHIR R4 'complete', according to SUSHI community comments, hl7.fhir.uv.extensions.r4 and hl7.terminology.r4 packages are also needed
-SET packageList=$LISTBUILD("/dur/IGPackage/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackage/hl7.terminology.r4#6.0.2/package","/dur/IGPackage/fhir.example/package")
+SET packageList=$LISTBUILD("/dur/IGPackages/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackages/hl7.terminology.r4#6.0.2/package","/dur/IGPackages/package")
 Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
 zw rtn
 
@@ -37,12 +36,18 @@ do strategy.SaveServiceConfigData(config)
 
 write "FHIRServer installed"
 
-//zn ns
-//zpm "version"
-//zpm "load /dur/package/ -v":1:1
+SET packageList=$LISTBUILD("/dur/IGPackages/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackages/hl7.terminology.r4#6.0.2/package","/dur/IGPackages/package")
+Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
+zw rtn
 
 exit
 halt
 EOF
+
+echo ""
+echo "FHIR Server installation complete."
+echo ""
+
+
 
 exit 0
