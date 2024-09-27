@@ -5,25 +5,29 @@ iris session $ISC_PACKAGE_INSTANCENAME -U %SYS <<- EOF
 zn "%SYS"
 do ##class(Security.Users).UnExpireUserPasswords("*")
 
-set ns="FHIRSERVER"
+set namespace="FHIRSERVER"
 zn "HSLIB"
-
-set namespace=ns
-Set appKey = "/csp/healthshare/fhirserver/fhir/r4"
-Set strategyClass = "HS.FHIRServer.Storage.JsonAdvSQL.InteractionsStrategy"
-set metadataPackages = $lb("hl7.fhir.r4.core@4.0.1")
-Set metadataConfigKey = "HL7v40"
 
 // Install a Foundation namespace and change to it
 // Do ##class(HS.HC.Util.Installer).InstallFoundation(namespace)
 Do ##class(HS.Util.Installer.Foundation).Install(namespace)
 zn namespace
 
-SET packageList=$LISTBUILD("/dur/IGPackages/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackages/hl7.terminology.r4#6.0.2/package","/dur/IGPackages/package")
+// Import FHIR packages
+SET packageList=$LISTBUILD("/dur/IGPackages/hl7.fhir.uv.extensions.r4#5.1.0/package")
 Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
-zw rtn
+SET packageList=$LISTBUILD("/dur/IGPackages/hl7.terminology.r4#6.0.2/package")
+Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
+SET packageList=$LISTBUILD("/dur/IGPackages/package")
+Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
+
 
 // Install elements that are required for a FHIR-enabled namespace
+Set appKey = "/csp/healthshare/fhirserver/fhir/r4"
+Set strategyClass = "HS.FHIRServer.Storage.JsonAdvSQL.InteractionsStrategy"
+set metadataPackages = $lb("hl7.fhir.r4.core@4.0.1")
+Set metadataConfigKey = "HL7v40"
+
 do ##class(HS.FHIRServer.Installer).InstallNamespace()
 
 // Install an instance of a FHIR Service into the current namespace
@@ -36,11 +40,6 @@ do strategy.SaveServiceConfigData(config)
 
 write "FHIRServer installed"
 
-SET packageList=$LISTBUILD("/dur/IGPackages/hl7.fhir.uv.extensions.r4#5.1.0/package","/dur/IGPackages/hl7.terminology.r4#6.0.2/package","/dur/IGPackages/package")
-Set rtn = ##Class(HS.FHIRMeta.Load.NpmLoader).importPackages(packageList)
-zw rtn
-
-exit
 halt
 EOF
 
