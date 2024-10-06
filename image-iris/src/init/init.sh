@@ -38,8 +38,6 @@ set config = strategy.GetServiceConfigData()
 set config.DebugMode = 4
 do strategy.SaveServiceConfigData(config)
 
-write "FHIRServer installed"
-
 halt
 EOF
 
@@ -47,6 +45,6 @@ echo ""
 echo "FHIR Server installation complete."
 echo ""
 
-
+iris stop $ISC_PACKAGE_INSTANCENAME quietly
 
 exit 0

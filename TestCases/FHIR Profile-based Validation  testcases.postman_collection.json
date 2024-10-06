@@ -1,0 +1,381 @@
+{
+	"info": {
+		"_postman_id": "788a7d0c-765d-4b0b-9239-afc930f09e97",
+		"name": "FHIR Profile-based Validation  Testcases",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4716358",
+		"_collection_link": "https://lively-trinity-973775.postman.co/workspace/Test~b66b3f85-90b3-483e-822e-ec28f289d6b2/collection/4716358-788a7d0c-765d-4b0b-9239-afc930f09e97?action=share&source=collection_link&creator=4716358"
+	},
+	"item": [
+		{
+			"name": "Without profile - All OK",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n  \"identifier\": [\r\n    {\r\n      \"system\": \"urn:ietf:rfc:3986\",\r\n      \"value\": \"2.16.840.1.113883.19.5\"\r\n    }\r\n  ],\r\n  \"name\": \"Good Health Clinic\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unknow field",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"121\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"active\":true,\r\n  \"name\": \"长宁市奉孝区中心医院\",\r\n  \"isNational\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong cardinality - less",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"121\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"identifier\": [\r\n    {\r\n      \"use\" : \"official\",\r\n      \"type\" : {\r\n        \"coding\" : [\r\n          {\r\n            \"system\" : \"http://example.org/CodeSystem/cs-identifierType-code-system\",\r\n            \"code\" : \"USCC\",\r\n            \"display\" : \"统一社会信用代码\"\r\n          }\r\n        ]\r\n      },\r\n      \"value\" : \"12330000470051726F\"\r\n    }\r\n  ],\r\n  \"active\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Binding strength",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"language\":\"wrong language\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"121\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"identifier\": [\r\n    {\r\n      \"system\": \"urn:ietf:rfc:3986\",\r\n      \"value\": \"2.16.840.1.113883.19.5\"\r\n    }\r\n  ],\r\n  \"active\":true,\r\n  \"name\": \"长宁市奉孝区中心医院\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong value",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"language\":\"zh-CN\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"999\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"identifier\": [\r\n    {\r\n      \"system\": \"urn:ietf:rfc:3986\",\r\n      \"value\": \"2.16.840.1.113883.19.5\"\r\n    }\r\n  ],\r\n  \"active\":true,\r\n  \"name\": \"长宁市奉孝区中心医院\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failing invariant",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"language\":\"zh-CN\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"121\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"identifier\": [\r\n    {\r\n      \"use\" : \"official\",\r\n      \"type\" : {\r\n        \"coding\" : [\r\n          {\r\n            \"system\" : \"http://example.org/CodeSystem/cs-identifierType-code-system\",\r\n            \"code\" : \"USCC\",\r\n            \"display\" : \"统一社会信用代码\"\r\n          }\r\n        ]\r\n      },\r\n      \"value\" : \"12330000470051726%\"\r\n    }\r\n  ],\r\n  \"active\":true,\r\n  \"name\": \"长宁市奉孝区中心医院\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failing profile",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Organization\",\r\n  \"id\": \"2.16.840.1.113883.19.5\",\r\n  \"language\":\"wrong language\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n      \\n      <p>Good Health Clinic</p>\\n    \\n    </div>\"\r\n  },\r\n   \"extension\" : [\r\n    {\r\n      \"url\" : \"http://example.org/StructureDefinition/mdm-organizationTypeExtension\",\r\n      \"valueCoding\" : {\r\n        \"system\" : \"http://example.org/CodeSystem/organizationtype-code-system\",\r\n        \"code\" : \"999\",\r\n        \"display\" : \"事业单位法人\"\r\n      }\r\n    }\r\n  ],\r\n  \"identifier\": [\r\n    {\r\n      \"use\" : \"official\",\r\n      \"type\" : {\r\n        \"coding\" : [\r\n          {\r\n            \"system\" : \"http://example.org/CodeSystem/cs-identifierType-code-system\",\r\n            \"code\" : \"USCC\",\r\n            \"display\" : \"统一社会信用代码\"\r\n          }\r\n        ]\r\n      },\r\n      \"value\" : \"12330000470051726%\"\r\n    }\r\n  ],\r\n  \"active\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{newValidatorURL}}/Organization/$validate?profile={{profile}}",
+					"host": [
+						"{{newValidatorURL}}"
+					],
+					"path": [
+						"Organization",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "{{profile}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "SYS",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "SuperUser",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "newValidatorURL",
+			"value": "http://localhost:52880/csp/healthshare/fhirserver/fhir/r4",
+			"type": "string"
+		},
+		{
+			"key": "profile",
+			"value": "http://example.org/StructureDefinition/mdm-organization|0.1.0",
+			"type": "string"
+		}
+	]
+}

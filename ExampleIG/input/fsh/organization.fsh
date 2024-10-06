@@ -19,6 +19,7 @@ Id: mdm-organization
 Title: "组织机构主数据"
 Parent: Organization
 Description: "An example profile of the Organization resource."
+* language from $lan (required)
 * active 1..1 MS
 * name 1..1 MS
 * extension contains MDMOrganizationTypeExtension named mdmorganizationTypeExtension 1..1 MS
@@ -27,10 +28,10 @@ Description: "An example profile of the Organization resource."
 * identifier ^slicing.discriminator.path = "type"
 * identifier ^slicing.rules = #open
 * identifier ^slicing.ordered = false   // can be omitted, since false is the default
-* identifier ^slicing.description = "identifier字段切片，用于容纳组织机构所持统一社会信用代码"
+* identifier ^slicing.description = "基于identifier类型的切片，使之可容纳组织机构所持统一社会信用代码"
 // identifier contains规则
 * identifier contains
-    uscc 1..1 MS
+    uscc 0..1 MS
 // 统一社会信用代码切片
 * identifier[uscc] ^short = "统一社会信用代码"
 * identifier[uscc] ^definition = "统一社会信用代码"
