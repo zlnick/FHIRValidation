@@ -89,27 +89,27 @@ The FHIR base standard does not include the type of the unified social credit co
 # Test Case List
 
 ## 1. Without profile - All OK
-    The resource's corresponding profile is not declared, so FHIR Server will not validate the values of the attributes in the resource and will only return All OK.
+The resource's corresponding profile is not declared, so FHIR Server will not validate the values of the attributes in the resource and will only return All OK.
 
 ## 2. Unknow field
-    An undefined attribute isNational was added to the resource, so the validation engine returned an Unrecognized element error.
+An undefined attribute isNational was added to the resource, so the validation engine returned an Unrecognized element error.
 
 ## 3. Wrong cardinality - less
-    In this IG, the cardinality of the Organization resource name attribute was modified to 1..1, which means that there should be and only one organization name. The name is not filled in this test case and hence the data validation fails.
-    In addition, it can be observed that Identifier.type has been extended to include the Uniform Social Credit Code as an identifier type, which is not included in the FHIR R4 specification, but the strength of the code binding for this field is only EXAMPLE, which does not force constraints. Therefore, the validation engine returns the information level value field code non-conformance information without reporting an error.
+In this IG, the cardinality of the Organization resource name attribute was modified to 1..1, which means that there should be and only one organization name. The name is not filled in this test case and hence the data validation fails.
+In addition, it can be observed that Identifier.type has been extended to include the Uniform Social Credit Code as an identifier type, which is not included in the FHIR R4 specification, but the strength of the code binding for this field is only EXAMPLE, which does not force constraints. Therefore, the validation engine returns the information level value field code non-conformance information without reporting an error.
 
 ## 4. Binding strength
-    In this IG, the code binding strength of the organization's language attribute is changed to required, then the field value field must conform to http://hl7.org/fhir/ValueSet/languages, therefore, when the field takes the value of 'wrong language', it is not in the required value value, which will result in an error level error
+In this IG, the code binding strength of the organization's language attribute is changed to required, then the field value field must conform to http://hl7.org/fhir/ValueSet/languages, therefore, when the field takes the value of 'wrong language', it is not in the required value value, which will result in an error level error
 
 ## 5. Wrong valie
-    In this IG, the value field for the organization type comes from organizationtype-code-system, so when the value of code in the extension element of type mdm-organizationTypeExtension, which has a value of “999 ”, which is not in the value field, will result in an error-level error
+In this IG, the value field for the organization type comes from organizationtype-code-system, so when the value of code in the extension element of type mdm-organizationTypeExtension, which has a value of “999 ”, which is not in the value field, will result in an error-level error
 
 ## 6. Failing invariant
-    In this IG, the social credit code of an organization must follow the custom constraint uscc-length-18 (the field must be 18 digits long, where the first 17 digits must be numeric, and the last 1 digit must be numeric or alphabetic), and therefore violating this constraint when the last digit is the character “%” will result in an error
+In this IG, the social credit code of an organization must follow the custom constraint uscc-length-18 (the field must be 18 digits long, where the first 17 digits must be numeric, and the last 1 digit must be numeric or alphabetic), and therefore violating this constraint when the last digit is the character “%” will result in an error
 
 ## 7. Failing profile
-    A single profile for a resource definition contains multiple constraints, so all issues that do not satisfy the profile will be detected during validation, such as the following issues in this example:
-    1. wrong language code
-    2. wrong organization type
-    3. missing name field
+A single profile for a resource definition contains multiple constraints, so all issues that do not satisfy the profile will be detected during validation, such as the following issues in this example:
+1. wrong language code
+2. wrong organization type
+3. missing name field
     

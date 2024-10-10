@@ -13,6 +13,8 @@ RUN find . -name '.DS_Store' -type f -delete
 
 WORKDIR /dur/IGPackages
 RUN ls *.tgz | xargs -n1 tar xzvf
+WORKDIR /dur/FullIG
+RUN ls *.zip | xargs -n1 tar xzvf
 
 WORKDIR /dur
 RUN iris start $ISC_PACKAGE_INSTANCENAME &&\

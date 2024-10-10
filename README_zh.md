@@ -88,28 +88,28 @@ FHIR基础标准并未纳入中国组织机构统一社会信用代码的证件�
 # 测试用例列表
 
 ## 1. Without profile - All OK
-    未声明资源对应的profile，因此FHIR Server将不对资源中各属性的值进行校验，仅返回All OK。
+未声明资源对应的profile，因此FHIR Server将不对资源中各属性的值进行校验，仅返回All OK。
 
 ## 2. Unknow field
-    在资源中加入了未被定义的属性isNational，因此校验引擎返回了Unrecognized element错误。
+在资源中加入了未被定义的属性isNational，因此校验引擎返回了Unrecognized element错误。
 
 ## 3. Wrong cardinality - less
-    在本IG中，修改了Organization资源name属性的基数为1..1，即应有且仅有一个组织机构名称。本测试用例未填写名称，因此数据校验失败。
-    另外，可以观察到Identifier.type经过扩展，加入了统一社会信用代码作为标识符类型，FHIR R4规范里并不包含这个值，但该字段的代码绑定强度仅为example，不强制约束。因此校验引擎返回了information级的值域代码不符合信息而没有报错。
+在本IG中，修改了Organization资源name属性的基数为1..1，即应有且仅有一个组织机构名称。本测试用例未填写名称，因此数据校验失败。
+另外，可以观察到Identifier.type经过扩展，加入了统一社会信用代码作为标识符类型，FHIR R4规范里并不包含这个值，但该字段的代码绑定强度仅为example，不强制约束。因此校验引擎返回了information级的值域代码不符合信息而没有报错。
 
 ## 4. Binding strength
-    在本IG中，组织机构的language属性的代码绑定强度改为了required，则该字段值域必须符合http://hl7.org/fhir/ValueSet/languages，因此，当该字段取值为wrong language时，因不在required值域中，将导致error级错误
+在本IG中，组织机构的language属性的代码绑定强度改为了required，则该字段值域必须符合http://hl7.org/fhir/ValueSet/languages，因此，当该字段取值为wrong language时，因不在required值域中，将导致error级错误
 
 ## 5. Wrong valie
-    在本IG中，组织机构类型的值域来自于organizationtype-code-system，因此，当类型为mdm-organizationTypeExtension的extension元素中code的值为“999”，不在值域中时，将导致error级错误
+在本IG中，组织机构类型的值域来自于organizationtype-code-system，因此，当类型为mdm-organizationTypeExtension的extension元素中code的值为“999”，不在值域中时，将导致error级错误
 
 ## 6. Failing invariant
-    在本IG中，组织机构的社会信用代码必须遵循自定义约束uscc-length-18（该字段长度必须为18位，其中前17位必须为数字，最后1位必须为数字或字母），因此，当其末位为字符“%”时，违反该约束，将导致error级错误
+在本IG中，组织机构的社会信用代码必须遵循自定义约束uscc-length-18（该字段长度必须为18位，其中前17位必须为数字，最后1位必须为数字或字母），因此，当其末位为字符“%”时，违反该约束，将导致error级错误
 
 ## 7. Failing profile
-    对于一个资源定义的一个profile包含了多个约束，因此，在校验时所有不满足profile的问题都将被检出，例如本例中：
-    1. 错误的language代码
-    2. 错误的组织机构类型
-    3. 缺少name字段
-    可见上述问题都被检出
+对于一个资源定义的一个profile包含了多个约束，因此，在校验时所有不满足profile的问题都将被检出，例如本例中：
+1. 错误的language代码
+2. 错误的组织机构类型
+3. 缺少name字段
+可见上述问题都被检出
     
