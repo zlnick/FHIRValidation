@@ -5,7 +5,7 @@ This demo program is used to show how a custom FHIR profile can be employed to v
 # Installation
 1. Download the project via Git clone.
 2. Execute docker-compose up -d to build and start the container, the initial execution will download required container images and executing the script will take another 5 to 10 minutes (depending on the machine). InterSystems IRIS for Health image will be built, then FHIR server will be installed, and the custom FHIR specification will be imported so that it can be used to validate the data.
-3. import the test case files from TestCases in Postman to see how the various FHIR constraints are validated
+3. Import the test case files from TestCases in Postman to see how the various FHIR constraints are validated
 4. After the container is started, you can view the contents of the [Custom IG](http://localhost:52880/csp/FullIG/index.html).
 
 # Code Structure
