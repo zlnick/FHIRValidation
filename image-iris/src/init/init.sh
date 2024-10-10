@@ -4,6 +4,9 @@ iris session $ISC_PACKAGE_INSTANCENAME -U %SYS <<- EOF
 // Disable user password expiration as a demo platform
 zn "%SYS"
 do ##class(Security.Users).UnExpireUserPasswords("*")
+set props("Path") = "/dur/FullIG"
+set props("Description") = "A demo FHIR IG web"
+do ##class(Security.Applications).Create("/csp/FullIG", .props)
 
 set namespace="FHIRSERVER"
 zn "HSLIB"

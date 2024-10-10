@@ -6,7 +6,7 @@
 1. 通过Git clone下载本项目。
 2. 执行docker-compose up -d构建并启动容器，初次执行时需执行需10～15分钟（视配置变化）。将构建InterSystems IRIS for Health镜像，安装FHIR服务器，导入自定义FHIR规范，使自定义FHIR 规范可用于验证数据。
 3. 在Postman中导入TestCases中的测试用例文件，查看各类FHIR约束的测试效果
-4. 可直接解压ExampleIG文件夹下的full-ig.zip文件，查看自定义IG的内容（中文描述）
+4. 容器启动后可查看[自定义IG](http://localhost:52880/csp/FullIG/index.html)内容
 
 # 项目代码结构
 ```
@@ -30,6 +30,7 @@ FHIRValidation
 └─ image-iris
    ├─ Dockerfile
    └─ src
+      ├─ FullIG
       ├─ IGPackages
       │  ├─ hl7.fhir.uv.extensions.r4#5.1.0.tgz
       │  ├─ hl7.terminology.r4#6.0.2.tgz
@@ -45,6 +46,7 @@ FHIRValidation
 ## image-iris
 该子目录下存放nterSystems IRIS for Health镜像所需的文件，其中：
 └─ src
+    ├─ FullIG 该目录中存放SUSHI生成的自定义FHIR IG
     ├─ IGPackages 该目录中存放自定义FHIR IG的 [package](#fhir-package) 文件
     └─ init 该目录中存放IRIS的Docker镜像初始化脚本
 
