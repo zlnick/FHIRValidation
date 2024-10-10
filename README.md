@@ -103,7 +103,7 @@ In addition, it can be observed that Identifier.type has been extended to includ
 ## 4. Binding strength
 In this IG, the code binding strength of the organization's language attribute is changed to required, then the field value field must conform to http://hl7.org/fhir/ValueSet/languages, therefore, when the field takes the value of 'wrong language', it is not in the required value value, which will result in an error level error
 
-## 5. Wrong valie
+## 5. Wrong value
 In this IG, the value field for the organization type comes from organizationtype-code-system, so when the value of code in the extension element of type mdm-organizationTypeExtension, which has a value of “999 ”, which is not in the value field, will result in an error-level error
 
 ## 6. Failing invariant

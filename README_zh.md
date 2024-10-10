@@ -102,7 +102,7 @@ FHIR基础标准并未纳入中国组织机构统一社会信用代码的证件�
 ## 4. Binding strength
 在本IG中，组织机构的language属性的代码绑定强度改为了required，则该字段值域必须符合http://hl7.org/fhir/ValueSet/languages，因此，当该字段取值为wrong language时，因不在required值域中，将导致error级错误
 
-## 5. Wrong valie
+## 5. Wrong value
 在本IG中，组织机构类型的值域来自于organizationtype-code-system，因此，当类型为mdm-organizationTypeExtension的extension元素中code的值为“999”，不在值域中时，将导致error级错误
 
 ## 6. Failing invariant
